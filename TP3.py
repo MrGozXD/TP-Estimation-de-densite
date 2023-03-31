@@ -183,8 +183,23 @@ j=10
 #ces quatre noyaux avec les fenêtre obtenue via la fonction lemeilleurh. Définir pour ce faire, la
 #fonction Allplotfchapeauhoptimal
 
-#
-
+def Allplotfchapeauhoptimal(xmin,xmax,pas,col1,col2,col3,col4,colref):
+	x = np.arange(xmin, xmax, pas)
+	fig, ax = plt.subplots()
+	noms = ['Noyau uniforme', 'Noyau triangle', 'Noyau epanechnikov',
+			'Noyau gaussien', 'Densité de référence']
+	for i, K in enumerate([K1, K2, K3, K4]):
+		ax.plot(x, [fchapeau(K, lemeilleurh(K, reference), xi) for xi in x], color=[
+				col1, col2, col3, col4][i], label=noms[i])
+	ax.plot(x, reference(x), color=colref, label=noms[4]) # la densité de référence
+	ax.set_xlabel('x')
+	ax.set_ylabel('Densité')
+	ax.set_title('Estimation de la densité avec différents noyaux (h optimal n='+str(n)+')')
+	ax.legend()
+	# save figure to file
+	plt.savefig('P1-BRETAGNOLLESPELOUTIERQ'+str(j)+'.png', dpi=300)
+'''
+Allplotfchapeauhoptimal(xmin,xmax,pas,col1,col2,col3,col4,colref) # Fonction lourde à exécuter, ne pas l'exécuter si vous n'avez pas de temps à perdre
 '''
 ##Partie 2
 def estimationdensite(N,h,mu1,sigma1,mu2,sigma2):
@@ -215,7 +230,9 @@ def estimationdensite(N,h,mu1,sigma1,mu2,sigma2):
 		ax.plot(X_plot[:,0], density, '-', label="Estimation")
 		ax.plot(X[:, 0], -0.005 - 0.01 * np.random.random(X.shape[0]), '+k')
 		ax.legend(loc='upper left')
-		plt.show()           
+		#plt.show()  # afficher l'image (à décommenter si sur windows)
+		# save figure to file
+		plt.savefig('P2-BRETAGNOLLESPELOUTIERQ'+str(j)+'.png', dpi=300)
 
 
 def estimationdensite2(N,h,mu1,sigma1,mu2,sigma2):
@@ -247,4 +264,4 @@ def estimationdensite2(N,h,mu1,sigma1,mu2,sigma2):
 		ax.plot(X[:, 0], -0.005 - 0.01 * np.random.random(X.shape[0]), '+k')
 		ax.legend(loc='upper left')
 		plt.show()      
-'''
+
