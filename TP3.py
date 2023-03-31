@@ -3,6 +3,13 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 from sklearn.neighbors import KernelDensity
 
+# Si vous êtes sous Windows ou un notebook Jupyter/Google Colab:
+# - décommentez les lignes suivantes : 110, 206, 210, 274 (plt.show)
+# - commentez les lignes contenant plt.savefig
+
+# Si vous êtes sous Linux et/ou que vous souhaitez sauvegarder les figures [Par défaut] :
+# - décommentez les lignes contenant plt.savefig
+# - commentez les lignes suivantes : 110, 206, 210, 274
 
 def reference(x):  # la densité de référence à estimer
     return 1/(np.sqrt(2*np.pi))*np.exp(-x**2/2)
@@ -99,6 +106,8 @@ def Allplotfchapeauh2(xmin, xmax, pas, col1, col2, col3, col4, colref,h):
     ax.set_ylabel('Densité')
     ax.set_title('Estimation de la densité avec différents noyaux (h='+str(h)+' n='+str(n)+')')
     ax.legend()
+    # afficher la figure
+	#plt.show()
     # save figure to file
     plt.savefig('P1-BRETAGNOLLESPELOUTIERQ'+str(j)+g+'.png', dpi=300)
 
@@ -117,7 +126,7 @@ Allplotfchapeauh1(xmin,xmax,pas,col1,col2,col3,col4,colref,h)
 #Qualitativement, est-ce que l’estimation diffère plus
 #lorsque l’on fait varier le noyau utilisé ou la fenêtre h utilisée ?
 #Réponse: l'estimation diffère plus lorsque l'on fait varier la fenêtre h utilisée.
-# Plus h est grand, plus les densités sont applatis.
+#Plus h est grand, plus les densités sont applatis.
 
 
 
@@ -179,9 +188,6 @@ print("Meilleur h pour K4="+str(meilleurhK4))
  
 #Question 10 
 j=10
-#Définir alors une fonction qui représente graphiquement les quatres estimations de densité pour
-#ces quatre noyaux avec les fenêtre obtenue via la fonction lemeilleurh. Définir pour ce faire, la
-#fonction Allplotfchapeauhoptimal
 
 def Allplotfchapeauhoptimal(xmin,xmax,pas,col1,col2,col3,col4,colref):
 	x = np.arange(xmin, xmax, pas)
@@ -196,11 +202,13 @@ def Allplotfchapeauhoptimal(xmin,xmax,pas,col1,col2,col3,col4,colref):
 	ax.set_ylabel('Densité')
 	ax.set_title('Estimation de la densité avec différents noyaux (h optimal n='+str(n)+')')
 	ax.legend()
+	# afficher la figure
+	#plt.show()
 	# save figure to file
 	plt.savefig('P1-BRETAGNOLLESPELOUTIERQ'+str(j)+'.png', dpi=300)
-'''
-Allplotfchapeauhoptimal(xmin,xmax,pas,col1,col2,col3,col4,colref) # Fonction lourde à exécuter, ne pas l'exécuter si vous n'avez pas de temps à perdre
-'''
+
+#Allplotfchapeauhoptimal(xmin,xmax,pas,col1,col2,col3,col4,colref) # Fonction lourde à exécuter, ne pas l'exécuter si vous n'avez pas de temps à perdre
+
 ##Partie 2
 def estimationdensite(N,h,mu1,sigma1,mu2,sigma2):
 		# générer l'échantillon à partir de deux lois normales
@@ -232,7 +240,7 @@ def estimationdensite(N,h,mu1,sigma1,mu2,sigma2):
 		ax.legend(loc='upper left')
 		#plt.show()  # afficher l'image (à décommenter si sur windows)
 		# save figure to file
-		plt.savefig('P2-BRETAGNOLLESPELOUTIERQ'+str(j)+'.png', dpi=300)
+		plt.savefig('P2-BRETAGNOLLESPELOUTIERQ'+str(j)+'_h='+str(h)+'_sigma1='+str(sigma1)+'_sigma2='+str(sigma2)+'_mu1='+str(mu1)+'_mu2='+str(mu2)+'_N='+str(N)+'.png', dpi=300)
 
 
 def estimationdensite2(N,h,mu1,sigma1,mu2,sigma2):
@@ -263,5 +271,100 @@ def estimationdensite2(N,h,mu1,sigma1,mu2,sigma2):
 		ax.plot(X_plot[:,0], density, '-', label="Estimation")
 		ax.plot(X[:, 0], -0.005 - 0.01 * np.random.random(X.shape[0]), '+k')
 		ax.legend(loc='upper left')
-		plt.show()      
+		#plt.show()  # afficher l'image (à décommenter si sur windows)
+		# save figure to file
+		plt.savefig('P2-BRETAGNOLLESPELOUTIERQ'+str(j)+'_h='+str(h)+'_sigma1='+str(sigma1)+'_sigma2='+str(sigma2)+'_mu1='+str(mu1)+'_mu2='+str(mu2)+'_N='+str(N)+'.png', dpi=300)    
 
+# Question 1
+j=1
+mu1=0
+mu2=5
+sigma1=1
+sigma2=1
+N=100
+h=0.75
+
+estimationdensite(N, h, mu1, sigma1, mu2, sigma2)
+
+# Question 2
+j=2
+'''
+h=np.arange(0.2,1.5,0.1)
+for hi in h:
+	estimationdensite(N, hi, mu1, sigma1, mu2, sigma2)
+'''
+# Plus on s'approche du h optimal, plus la densité estimée est proche de la vraie densité.
+# A l'inverse, plus on s'éloigne du h optimal, plus la densité estimée est éloignée de la vraie densité.
+
+# Question 3
+j=3
+
+'''
+sigma1=np.arange(0.1,1,0.25)
+sigma2=np.arange(0.1,1,0.25)
+for sigma1i in sigma1:
+	for sigma2i in sigma2:
+		estimationdensite(N, h, mu1, sigma1i, mu2, sigma2i)
+
+
+mu1=np.arange(0,5,2.5)
+mu2=np.arange(0,5,2.5)
+for mu1i in mu1:
+	for mu2i in mu2:
+		estimationdensite(N, h, mu1i, sigma1, mu2i, sigma2)
+'''
+# sigma a un impact sur l'étirement de la gaussienne, et mu sur le décalage de la gaussienne.
+
+#Question 4
+j=4
+'''
+N=np.arange(100,1000,100)
+for Ni in N:
+    estimationdensite(Ni, h, mu1, sigma1, mu2, sigma2)
+'''
+
+# Plus on augmente N, plus la densité estimée est proche de la vraie densité.
+
+#Question 5
+j=5
+mu1=0
+mu2=5
+sigma1=1
+sigma2=1
+N=100
+h=0.75
+
+estimationdensite2(N, h, mu1, sigma1, mu2, sigma2)
+
+# On peut ensuite faire varier les paramètres pour voir l'impact sur la densité estimée comme aux questions précédentes.
+
+'''
+h=np.arange(0.2,1.5,0.1)
+for hi in h:
+	estimationdensite(N, hi, mu1, sigma1, mu2, sigma2)
+'''
+# Plus on s'approche du h optimal, plus la densité estimée est proche de la vraie densité.
+# A l'inverse, plus on s'éloigne du h optimal, plus la densité estimée est éloignée de la vraie densité.
+
+'''
+sigma1=np.arange(0.1,1,0.25)
+sigma2=np.arange(0.1,1,0.25)
+for sigma1i in sigma1:
+	for sigma2i in sigma2:
+		estimationdensite(N, h, mu1, sigma1i, mu2, sigma2i)
+
+
+mu1=np.arange(0,5,2.5)
+mu2=np.arange(0,5,2.5)
+for mu1i in mu1:
+	for mu2i in mu2:
+		estimationdensite(N, h, mu1i, sigma1, mu2i, sigma2)
+'''
+# sigma a un impact sur l'étirement de la gaussienne, et mu sur le décalage de la gaussienne.
+
+'''
+N=np.arange(100,1000,100)
+for Ni in N:
+    estimationdensite(Ni, h, mu1, sigma1, mu2, sigma2)
+'''
+# Plus on augmente N, plus la densité estimée est proche de la vraie densité.
