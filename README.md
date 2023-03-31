@@ -8,7 +8,7 @@
 
 3 - Suivre les instructions en commentaire
 
-3bis - Supprimez les ''' si besoin pour afficher/générer en .png toutes les variations des différentes figures
+3bis - Supprimer les ''' si besoin pour afficher/générer en .png toutes les variations des différentes figures
 
 4 - Exécuter TP3.py (python3 TP3.py)
 
